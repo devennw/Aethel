@@ -1,5 +1,5 @@
-#ifndef _TYPES_H_
-#define _TYPES_H_
+#ifndef _TYPES_H
+#define _TYPES_H
 
 /*
  * Basic types upon which most other types are built.
