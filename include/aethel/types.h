@@ -1,203 +1,115 @@
 #ifndef _TYPES_H
 #define _TYPES_H
 
-/*
- * Basic types upon which most other types are built.
- *
- * Note: It would be nice to simply use the compiler-provided __FOO_TYPE__
- * macros. However, in order to do so we have to check that those match the
- * previous typedefs exactly (not just that they have the same size) since any
- * change would be an ABI break. For example, changing `long` to `long long`
- * results in different C++ name mangling.
- */
-typedef signed char     __int8_t;
-typedef unsigned char   __uint8_t;
-#define __SIZEOF_INT8_T __SIZEOF_CHAR__
-typedef short           __int16_t;
-typedef unsigned short  __uint16_t;
-#define __SIZEOF_INT16_T __SIZEOF_SHORT__
-typedef int           __int32_t;
-typedef unsigned int  __uint32_t;
-#define	__SIZEOF_INT32_T	__SIZEOF_INT__
-#if __SIZEOF_LONG__ == 8
-typedef	long			        __int64_t;
-typedef	unsigned long		  __uint64_t;
-#define	__SIZEOF_INT64_T	__SIZEOF_LONG__
-#elif __SIZEOF_LONG__ == 4
-__extension__
-typedef	long long		      __int64_t;
-__extension__
-typedef	unsigned long long  __uint64_t;
-#define	__SIZEOF_INT64_T	  __SIZEOF_LONG_LONG__
-#else
-#error unsupported long size
-#endif
-
-typedef	signed char		      __int8_t;
-typedef	unsigned char		    __uint8_t;
-#define	__SIZEOF_INT8_T		  __SIZEOF_CHAR__
-typedef	short			          __int16_t;
-typedef	unsigned short		  __uint16_t;
-#define	__SIZEOF_INT16_T	  __SIZEOF_SHORT__
-typedef	int			            __int32_t;
-typedef	unsigned int		    __uint32_t;
-#define	__SIZEOF_INT32_T	  __SIZEOF_INT__
-#if __SIZEOF_LONG__ == 8
-typedef	long			          __int64_t;
-typedef	unsigned long		    __uint64_t;
-#define	__SIZEOF_INT64_T	  __SIZEOF_LONG__
-#elif __SIZEOF_LONG__ == 4
-__extension__
-typedef	long long		        __int64_t;
-__extension__
-typedef	unsigned long long	__uint64_t;
-#define	__SIZEOF_INT64_T	  __SIZEOF_LONG_LONG__
-#else
-#error unsupported long size
-#endif
-
-typedef	__int8_t	__int_least8_t;
-typedef	__int16_t	__int_least16_t;
-typedef	__int32_t	__int_least32_t;
-typedef	__int64_t	__int_least64_t;
-typedef	__int64_t	__intmax_t;
-typedef	__uint8_t	__uint_least8_t;
-typedef	__uint16_t	__uint_least16_t;
-typedef	__uint32_t	__uint_least32_t;
-typedef	__uint64_t	__uint_least64_t;
-typedef	__uint64_t	__uintmax_t;
-
-#ifdef __CHERI__
-typedef	__intcap_t	__intptr_t;
-typedef	__intcap_t	__intfptr_t;
-typedef	__intptr_t	__int64ptr_t;
-typedef	__uintcap_t	__uintptr_t;
-typedef	__uintcap_t	__uintfptr_t;
-typedef	__uintptr_t	__uint64ptr_t;
-#elif __SIZEOF_POINTER__ == 8
-typedef	__int64_t	  __intptr_t;
-typedef	__int64_t	  __intfptr_t;
-typedef	__int64_t	  __int64ptr_t;
-typedef	__uint64_t	__uintptr_t;
-typedef	__uint64_t	__uintfptr_t;
-typedef	__uint64_t	__uint64ptr_t;
-#elif __SIZEOF_POINTER__ == 4
-typedef	__int32_t	__intptr_t;
-typedef	__int32_t	__intfptr_t;
-typedef	__int64_t	__int64ptr_t;
-typedef	__uint32_t	__uintptr_t;
-typedef	__uint32_t	__uintfptr_t;
-typedef	__uint64_t	__uint64ptr_t;
-#else
-#error unsupported pointer size
-#endif
-
-#if __SIZEOF_SIZE_T__ == 8
-typedef	__uint64_t	__size_t;	/* sizeof() */
-typedef	__int64_t	__ssize_t;	/* byte count or error */
-#elif __SIZEOF_SIZE_T__ == 4
-typedef	__uint32_t	__size_t;	/* sizeof() */
-typedef	__int32_t	__ssize_t;	/* byte count or error */
-#else
-#error unsupported size_t size
-#endif
-
-#ifdef __PTRADDR_TYPE__
-typedef	__PTRADDR_TYPE__	__ptraddr_t;
-#else
-typedef	__size_t		    __ptraddr_t;
-#endif
-
-typedef	__ptraddr_t	__vm_offset_t;
-typedef	__size_t	__vm_size_t;
+#include <stdint.h>
+#include <stddef.h>
+#include <stdbool.h>
 
 /* 
- * standard type definition
+ * type data boolean 
  */
 
-typedef	__int32_t	__blksize_t;	/* file block size */
-typedef	__int64_t	__blkcnt_t;	/* file block count */
-typedef	__int32_t	__clockid_t;	/* clock_gettime()... */
-typedef	__uint32_t	__fflags_t;	/* file flags */
-typedef	__uint64_t	__fsblkcnt_t;
-typedef	__uint64_t	__fsfilcnt_t;
-typedef	__uint32_t	__gid_t;
-typedef	__int64_t	__id_t;		/* can hold a gid_t, pid_t, or uid_t */
-typedef	__uint64_t	__ino_t;	/* inode number */
-typedef	long		__key_t;	/* IPC key (for Sys V IPC) */
-typedef	__int32_t	__lwpid_t;	/* Thread ID (a.k.a. LWP) */
-typedef	__uint16_t	__mode_t;	/* permissions */
-typedef	int		    __accmode_t;	/* access permissions */
-typedef	int		    __nl_item;
-typedef	__uint64_t	__nlink_t;	/* link count */
-typedef	__int64_t	__off_t;	/* file offset */
-typedef	__int64_t	__off64_t;	/* file offset (alias) */
-typedef	__int32_t	__pid_t;	/* process [group] */
-typedef	__int64_t	__sbintime_t;
-typedef	__int64_t	__rlim_t;	/* resource limit - intentionally */
-					/* signed, because of legacy code */
-					/* that uses -1 for RLIM_INFINITY */
-typedef	__uint8_t	    __sa_family_t;
-typedef	__uint32_t	    __socklen_t;
-typedef	long		    __suseconds_t;	/* microseconds (signed) */
-typedef	struct __timer	*__timer_t;	/* timer_gettime()... */
-typedef	struct __mq	    *__mqd_t;	/* mq_open()... */
-typedef	__uint32_t	    __uid_t;
-typedef	unsigned int	__useconds_t;	/* microseconds (unsigned) */
-typedef	int		        __cpuwhich_t;	/* which parameter for cpuset. */
-typedef	int		        __cpulevel_t;	/* level parameter for cpuset. */
-typedef int		        __cpusetid_t;	/* cpuset identifier. */
-typedef __int64_t	    __daddr_t;	/* bwrite(3), FIOBMAP2, etc */
+#ifndef BOOLEAN
+#define BOOLEAN
 
-#ifndef __SIZEOF_INTCAP__
-/*
- * On non-CHERI systems, define __(u)intcap_t to __(u)intptr_t so that
- * hybrid-C code which needs to be explicitly aware of capabilities can
- * use it.  These types may be present in some third-party code and
- * should not generally be used in FreeBSD code.
+typedef _Bool bool;
+
+#define true 1
+#define false 0
+
+#define NULL ((void*) 0 )
+
+#endif // BOOLEAN
+
+/* 
+ * type data
  */
-typedef	__intptr_t	__intcap_t;
-typedef	__uintptr_t	__uintcap_t;
+typedef uint8_t uchar_t;
+typedef uint16_t ushort_t;
+typedef uint32_t ulong_t;
+typedef uint64_t ulonglong_t;
+
+typedef int8_t  schar_t;
+typedef int16_t sshort_t;
+typedef int32_t long_t;
+typedef int64_t longlong_t;
+
+typedef schar_t       sint_least8_t;
+typedef sshort_t      sint_least16_t;
+typedef long_t        long_least32_t;
+typedef longlong_t    longlong_least64_t;
+typedef longlong_t    longlong_max_t;
+typedef uchar_t       uchar_least8_t;
+typedef ushort_t      ushort_least16_t;
+typedef ulong_t       ulong_least32_t;
+typedef ulonglong_t   ulonglong_least64_t;
+typedef ulonglong_t   ulonglong_max_t;
+
+/* 
+ * type data for memory pointer (64-bit) 
+ */
+
+#ifdef __SIZEOF_POINTER__ == 8
+  typedef longlong_t    longlongptr_t;
+  typedef ulonglong_t   ulonglongptr_t;
+#elif __SIZEOF_POINTER__ == 4
+  typedef long_t      longptr_t;
+  typedef longlong_t  longlongptr_t;
+  typedef ulong_t     ulongptr_t;
+  typedef ulonglong_t ulonglongptr_t;
+#else
+# error unsupported pointer size
+#endif // __SIZEOF_POINTER__
+
+#ifdef __PTRADDR_TYPE__
+typedef __PTRADDR_TYPE__  __ptraddr_t;
+#else
+typedef size_t        __ptraddr_t;
 #endif
+
+typedef __ptraddr_t   __vm_offset_t;
+typedef size_t        __vm_size_t;
+
+/*
+ * standard type definition 
+ */
+typedef long_t          blksize_t;
+typedef longlong_t      blkcnt_t;
+typedef long_t          clockid_t;
+typedef ulong_t         flags_t;
+typedef ulonglong_t     fsblknct_t;
+typedef ulonglong_t     fsfilcnt_t;
+typedef ulong_t         gid_t;
+typedef longlong_t      id_t;
+typedef ulonglong_t     ino_t;
+typedef long            key_t;
+typedef long_t          lwpid_t;
+typedef ulong_t         mode_t;
+typedef int             accmode_t;
+typedef int             nl_item;
+typedef ulonglong_t     nlink_t;
+typedef longlong_t      off_t;
+typedef longlong_t      off_long_t;
+typedef long_t          pid_t;
+typedef longlong_t      sbintime_t;
+typedef longlong_t      rlim_t;
+typedef void            *handle_t;
+
+typedef uchar_t         sa_family_t;
+typedef ulong_t         socklen_t;
+typedef long            suseconds_t;
+typedef struct __timer  *timer_t;
+typedef struct __mq     *mqd_t;
+typedef ulong_t         uid_t;
+typedef ulong_t         useseconds_t;
+typedef int             cpuwitch_t;
+typedef int             cpulevel_t;
+typedef int             cpusetid_t;
+typedef longlong_t      daddr_t;
 
 /*
  * Unusual type definitions.
  */
-/*
- * rune_t is declared to be an ``int'' instead of the more natural
- * ``unsigned long'' or ``long''.  Two things are happening here.  It is not
- * unsigned so that EOF (-1) can be naturally assigned to it and used.  Also,
- * it looks like 10646 will be a 31 bit standard.  This means that if your
- * ints cannot hold 32 bits, you will be in trouble.  The reason an int was
- * chosen over a long is that the is*() and to*() routines take ints (says
- * ANSI C), but they use __ct_rune_t instead of int.
- *
- * NOTE: rune_t is not covered by ANSI nor other standards, and should not
- * be instantiated outside of lib/libc/locale.  Use wchar_t.  wint_t and
- * rune_t must be the same type.  Also, wint_t should be able to hold all
- * members of the largest character set plus one extra value (WEOF), and
- * must be at least 16 bits.
- */
-typedef	int		    __ct_rune_t;	/* arg type for ctype funcs */
-typedef	__ct_rune_t	__rune_t;	/* rune_t (see above) */
-typedef	__ct_rune_t	__wint_t;	/* wint_t (see above) */
-
-/* Clang already provides these types as built-ins, but only in C++ mode. */
-#if !defined(__clang__) || !defined(__cplusplus)
-typedef	__uint_least16_t __char16_t;
-typedef	__uint_least32_t __char32_t;
-#endif
-/* In C++11, char16_t and char32_t are built-in types. */
-#if defined(__cplusplus) && __cplusplus >= 201103L
-#define _CHAR8_T_DECLARED
-#define	_CHAR16_T_DECLARED
-#define	_CHAR32_T_DECLARED
-#define _CHAR64_T_DECLARED
-#endif
-/* and so is char8_t in C++20 */
-#if defined(__cplusplus) && __cplusplus >= 202002L
-#define _CHAR8_T_DECLARED
-#endif
 
 typedef struct {
 	long long __max_align1
@@ -209,46 +121,4 @@ typedef struct {
 	void *__max_align3 __attribute__((__aligned__(__alignof__(void *))));
 } __max_align_t;
 
-/* Types for sys/acl.h */
-typedef __uint32_t	__acl_tag_t;
-typedef __uint32_t	__acl_perm_t;
-typedef __uint16_t	__acl_entry_type_t;
-typedef __uint16_t	__acl_flag_t;
-typedef __uint32_t	__acl_type_t;
-typedef __uint32_t	*__acl_permset_t;
-typedef __uint16_t	*__acl_flagset_t;
-
-typedef	__uint64_t	__dev_t;	/* device number */
-
-typedef	__uint32_t	__fixpt_t;	/* fixed point number */
-
-/*
- * mbstate_t is an opaque object to keep conversion state during multibyte
- * stream conversions.
- */
-typedef union {
-	char		__mbstate8[128];
-	__int64_t	_mbstateL;	/* for alignment */
-	__intptr_t	_mbstateP;	/* for alignment */
-} __mbstate_t;
-
-typedef __uintmax_t     __rman_res_t;
-
-/*
- * Types for varargs. These are all provided by builtin types these
- * days, so centralize their definition.
- */
-typedef	__builtin_va_list	__va_list;	/* internally known to gcc */
-#if !defined(__GNUC_VA_LIST) && !defined(__NO_GNUC_VA_LIST)
-#define __GNUC_VA_LIST
-typedef __va_list		__gnuc_va_list;	/* compatibility w/GNU headers*/
-#endif
-
-/*
- * When the following macro is defined, the system uses 64-bit inode numbers.
- * Programs can use this to avoid including <sys/param.h>, with its associated
- * namespace pollution.
- */
-#define  __INO64
-
-#endif /* _TYPES_H_ */
+#endif // _TYPES_H
