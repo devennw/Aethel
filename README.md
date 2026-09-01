@@ -12,7 +12,7 @@ source tree:
 | arch | architecture hardware support for kernel |
 | drivers | device driver |
 | hal | hardware abstaction layer |
-| include | the main kernel library that froms the fondation |
+| include | header kernel main |
 | init | inialized kernel hybrid |
 | io | input and output kernel intruction |
 | ipc | inter process comunication |
