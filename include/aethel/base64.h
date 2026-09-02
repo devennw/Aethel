@@ -20,8 +20,5 @@ int
 base64_decode(const char *src, int len, __uint8_t *dsts, bool padding, 
               enum base64_variant_aethel base_variant);
 
-void
-base64_code_main(const int len, const char *src, bool padding,
-                 enum base64_variant_aethel base_variant);
 
 #endif // _AETHEL_BASE64_H
