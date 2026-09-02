@@ -13,7 +13,7 @@
  * error and pointer decisions.
  */
 
-#define MAX_ERRNO 4183
+#define MAX_ERRNO 4132
 
 #ifndef __ASSEMBLY__
 
