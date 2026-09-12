@@ -15,8 +15,6 @@
 
 #define MAX_ERRNO 4132
 
-#ifndef __ASSEMBLY__
-
 /**
  * IF_ERR_VALUE - Detect an error pointer.
  * @x: The pointer to check.
@@ -36,7 +34,7 @@
  * Return: A pointer with @error encoded within its value.
  */
 
-static inline void * ERR_PTR(long error)
+static __inline void * ERR_PTR(long error)
 {
   return (void *) error;
 }
@@ -52,3 +50,5 @@ static inline void * ERR_PTR(long error)
 
 
 #define 
+
+#endif // _AETHEL_ERR_H
