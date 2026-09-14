@@ -1,19 +1,17 @@
-#ifndef _AETHEL__TYPES_H_
-#define _AETHEL__TYPES_H_
-
 #pragma once
 
-typedef unsigned long long __ulong64_t;
-typedef unsigned long __ulong32_t;
-typedef unsigned int __uint32_t;
-typedef unsigned short __uint16_t;
-typedef unsigned char __uint8_t;
+// aethel type
+typedef unsigned long long    __ulong64_t;
+typedef unsigned long         __ulong32_t;
+typedef unsigned int          __uint32_t;
+typedef unsigned short        __uint16_t;
+typedef unsigned char         __uint8_t;
 
-typedef signed long long __long64_t;
-typedef signed long __long32_t;
-typedef signed int __int32_t;
-typedef signed short __int16_t;
-typedef signed char __int8_t;
+typedef signed long long      __long64_t;
+typedef signed long           __long32_t;
+typedef signed int            __int32_t;
+typedef signed short          __int16_t;
+typedef signed char           __int8_t;
 
 typedef __int8_t      __int_least8_t;
 typedef __int16_t     __int_least16_t;
@@ -27,7 +25,7 @@ typedef __ulong64_t   __uint_least64_t;
 typedef __ulong64_t   __uintmax_t;
 
 
-#elif __SIZEOF_POINTER__ == 8
+#if __SIZEOF_POINTER__ == 8
 typedef __long64_t __intptr_t;
 typedef __ulong64_t __uintptr_t;
 
@@ -63,5 +61,3 @@ typedef __PTRADDR_TYPE__  __ptraddr_t;
 typedef __size_t    __ptraddr_t;
 #endif
 
-
-#endif // _AETHEL__TYPES_H_
